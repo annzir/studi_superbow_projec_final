@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaceBet</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2>   votre pari est succes !</h2>
+        <p>Revoyez les détails de votre pari avant de confirmer.</p>
+
+        <!-- Display Bet Details -->
+        <div class="bet-details">
+            <h4>Match sélectionné</h4>
+            <p>{{ match.team1.name }} vs {{ match.team2.name }} - {{ match.match_time|date:"d M Y H:i" }}</p>
+
+            <h4>Équipe choisie pour le pari</h4>
+            <p>{{ chosen_team.name }}</p>
+
+            <h4>Montant du pari</h4>
+            <p>{{ bet_amount }} €</p>
+        </div>
+
+        <!-- Confirmation Form -->
+        <form id="betConfirmationForm" method="post" action="{% url 'myapp:finalize_bet' match.id %}">
+            {% csrf_token %}
+            <!-- Hidden fields to pass bet details if needed -->
+            <input type="hidden" name="match_id" value="{{ match.id }}">
+            <input type="hidden" name="chosen_team_id" value="{{ chosen_team.id }}">
+            <input type="hidden" name="bet_amount" value="{{ bet_amount }}">
+
+            <button type="submit" class="btn btn-success">Confirmer le pari</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap Modal for Confirmation -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirmation du pari</h5>
+                </div>
+                <div class="modal-body">
+                    Vous avez confirmé un pari, merci et bonne chance !
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+        document.getElementById('betConfirmationForm').onsubmit = function(event) {
+            event.preventDefault();
+            $('#confirmationModal').modal('show');
+            setTimeout(function() {
+                window.location.href = '{% url "myapp:home" %}';
+            }, 3000);  // Redirect after 3 seconds
+        };
+    </script>
+
+</body>
+
+</html>

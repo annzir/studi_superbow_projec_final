@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créations des équipes et des joueurs</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+    <!-- Create Teams and Players Content -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Créations des équipes et des joueurs</h2>
+
+        <!-- Team Creation Form -->
+        <div class="card mb-4">
+            <div class="card-header">Ajouter une équipe</div>
+            <div class="card-body">
+               <form action="{% url 'create_teams_and_players' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ team_form.as_p }}
+                    <button type="submit" name="teamName" class="btn btn-primary">Ajouter</button>
+               </form>
+            </div>
+        </div>
+
+        <!-- Player Creation Form -->
+        <div class="card">
+            <div class="card-header">Ajouter un joueur</div>
+            <div class="card-body">
+                <form action="{% url 'create_teams_and_players' %}" method="post">
+                    {% csrf_token %}
+                    {{ player_form.as_p }}
+                    <button type="submit" name="playerName" class="btn btn-primary">Ajouter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+   {% include 'navBar.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

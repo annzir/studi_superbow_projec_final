@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace utilisateur</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+
+  <div class="container mt-5">
+        <div class="row">
+            <!-- Vertical Tab navigation -->
+            <div class="col-md-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">Dashboard</a>
+                    <a class="nav-link" id="v-pills-bettingHistory-tab" data-toggle="pill" href="#v-pills-bettingHistory" role="tab" aria-controls="v-pills-bettingHistory" aria-selected="false">Historique des mises</a>
+                </div>
+            </div>
+
+            <!-- Vertical Tab Content -->
+            <div class="col-md-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                       <div class="tab-content" id="userTabContent">
+        <!-- User information -->
+        <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+            <div class="container mt-5">
+                <h2 class="mb-4">Espace utilisateur</h2>
+                <h4>Détails de l'utilisateur:</h4>
+                <div>
+                    <strong>Nom:</strong> {{ request.user.username }}
+                    <strong>Email:</strong> {{ request.user.email }}
+                    <strong>Date d'inscription:</strong> {{ request.user.date_joined|date:"d M Y" }}
+                </div>
+                <h4 class="mt-4">Historique des paris:</h4>
+                <canvas id="bettingHistory" width="400" height="200"></canvas>
+                <script>
+                    var ctx = document.getElementById('bettingHistory').getContext('2d');
+                    var bettingHistoryChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: {{ labels|safe }},
+                            datasets: [{
+                                label: 'Paris en €',
+                                data: {{ data|safe }},
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+
+        <!-- Graphic Historique des mises -->
+        <div class="tab-pane fade" id="bettingHistory" role="tabpanel" aria-labelledby="bettingHistory-tab">
+
+        </div>
+    </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-bettingHistory" role="tabpanel" aria-labelledby="v-pills-bettingHistory-tab">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

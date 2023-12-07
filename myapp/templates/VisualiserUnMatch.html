@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualiser un match</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+    <!-- Main Content: Visualiser un match -->
+        <div class="container mt-5">
+            <h2 class="mb-4 margin20">Détails du match</h2>
+
+            <!-- Match details -->
+            <div class="mb-3">
+                <strong>Équipes:</strong> {{ match.team1.name }} vs {{ match.team2.name }}
+            </div>
+            <div class="mb-3">
+                <strong>Heure de début:</strong> {{ match.heure_debut }}
+            </div>
+            <div class="mb-3">
+                <strong>Heure de fin:</strong> {{ match.heure_fin }}
+            </div>
+            <!-- Ajoutez d'autres détails du match ici, en utilisant {{ match.attribut }} où nécessaire -->
+
+            <!-- Affichez le bouton de pari seulement si le match est ouvert pour les paris -->
+            {% if match.statut == 'En attente' or match.statut == 'En cours' %}
+                <div class="mt-4">
+                    <a href="{% url 'myapp:betting_page' %}">
+                    <button class="btn btn-success" type="button">Miser</button>
+                    </a>
+                </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <strong>Équipes:</strong> Équipe A vs Équipe B
+        </div>
+        <div class="mb-3">
+            <strong>Heure de début:</strong> 15:00
+        </div>
+        <div class="mb-3">
+            <strong>Heure de fin:</strong> 17:00
+        </div>
+        <div class="mb-3">
+            <strong>Joueurs:</strong> Liste des joueurs...
+        </div>
+        <div class="mb-3">
+            <strong>Statut du match:</strong> {{ match.status }}
+        </div>
+        <div class="mb-3">
+            <strong>Météo:</strong> Ensoleillé
+        </div>
+        <div class="mb-3">
+            <strong>Commentaires:</strong> Notes du commentateur...
+        </div>
+        <div class="mb-3">
+            <strong>Score:</strong> Équipe A: 2 - Équipe B: 1
+        </div>
+        <div class="mb-3">
+            <strong>Cotes de pari:</strong> Équipe A: 1.5, Équipe B: 2.3
+        </div>
+
+        <!-- Bet Button -->
+        <div class="mt-4">
+            {% if match.status != 'Terminé' %}
+                    <a href="{% url 'myapp:betting_page' %}">
+                    <button class="btn btn-success" type="button">Miser</button>
+                    </a>
+                    {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'navBar.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

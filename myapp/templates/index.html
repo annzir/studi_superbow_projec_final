@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'accueil</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+
+    <!-- Carousel -->
+    <div id="eventCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <img src="https://via.placeholder.com/800x300" class="d-block w-100" alt="Slide 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Titre Slide 1</h5>
+                    <p>Description pour le slide 1.</p>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x300" class="d-block w-100" alt="Slide 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Titre Slide 2</h5>
+                    <p>Description pour le slide 2.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/800x300" class="d-block w-100" alt="Slide 3">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Titre Slide 3</h5>
+                    <p>Description pour le slide 3.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel Controls -->
+        <a class="carousel-control-prev" href="#eventCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Précédent</span>
+        </a>
+        <a class="carousel-control-next" href="#eventCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Suivant</span>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+ <!-- Main Content -->
+<div class="container mt-5 marinbuttom120">
+    <h2>Description de l'évènement</h2>
+    <p>
+        Bienvenue à l'évènement annuel de paris sportifs - <strong>"La Grande Prédiction"</strong>!
+    </p>
+    <p>
+        Rejoignez-nous pour une journée remplie d'excitation, de compétition et, bien sûr, de paris. "La Grande Prédiction" est l'un des plus grands évènements de paris sportifs en France, attirant des milliers de visiteurs et de parieurs du monde entier.
+    </p>
+    <p>
+        Cet évènement offre une plateforme pour les amateurs de sport et les parieurs pour se réunir, célébrer leur passion pour le sport et tenter leur chance dans les paris. Avec des matchs en direct, des analyses d'experts et des cotes attractives, c'est l'endroit idéal pour les novices et les parieurs expérimentés.
+    </p>
+    <p>
+        Outre les matchs et les paris, profitez de nos zones de divertissement, de nos délicieuses options de restauration et de nos stands de marchandises. Que vous soyez ici pour parier, pour soutenir votre équipe ou simplement pour profiter de l'ambiance électrisante, il y a quelque chose pour tout le monde à "La Grande Prédiction".
+    </p>
+
+    <h3>Matchs du jour</h3>
+        <div class="row">
+            {% for match in upcoming_matches %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Aucun match programmé pour aujourd'hui.</p>
+            {% endfor %}
+        </div>
+
+    <!-- Matches 1 and 2 -->
+        <div class="row">
+            {% for match in matches_1_and_2 %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+
+   <!-- Matches 3 and 4 -->
+    <div class="row">
+        {% for match in matches_3_and_4 %}
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                        <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                        <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+            <!-- Matches 5 and 6 -->
+        <div class="row">
+            {% for match in matches_5_and_6 %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+            <!-- Matches 7 and 8 -->
+        <div class="row">
+            {% for match in matches_7_and_8 %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+            <!-- Matches 9 and 10 -->
+        <div class="row">
+            {% for match in matches_9_and_10 %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+</div>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

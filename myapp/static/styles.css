@@ -1,0 +1,142 @@
+/* Custom CSS Enhancements */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    margin-bottom: 50px;
+}
+
+.footer {
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+#eventCarousel {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 70px;
+}
+
+/* Background color */
+body {
+    background-color: #E6F1F0; /* Cyber Silver */
+    color: #BDC7C9;           /* Robot Gray for text */
+}
+
+/* Primary color */
+h1, h2, h3, h4, h5, h6 {
+    color: #0F2027;          /* Deep Space Blue */
+}
+
+.btn-primary {
+    background-color: #0F2027; /* Deep Space Blue */
+    color: #E6F1F0;            /* Cyber Silver */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #405A75; /* Stellar Blue */
+}
+
+/* Secondary color */
+a, .btn-secondary {
+    color: #2C5364;          /* Galaxy Blue */
+}
+
+/* Navbar color adjustments */
+.navbar {
+    background: linear-gradient(90deg, #55E6C1, #405A75); /* Transition from Neon Green to Stellar Blue */
+}
+
+.navbar .nav-link {
+    color: #E6F1F0; /* Cyber Silver text for better readability on the colorful gradient */
+}
+
+.navbar .navbar-brand {
+    color: #E6F1F0;
+}
+/* Footer adjustments */
+.footer {
+    background-color: #0F2027; /* Deep Space Blue */
+    color: #E6F1F0;
+}
+
+/* Highlight adjustments */
+.highlight {
+    color: #55E6C1; /* Neon Green */
+}
+
+/* Fixed Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    background-color: #013369;
+}
+
+.navbar .nav-link, .navbar .navbar-brand {
+    font-weight: bold;
+}
+
+
+.card {
+    background-color: #91a7a6; /* Cyber Silver from our futuristic theme */
+}
+
+.card-title {
+    font-size: 1.5em;         /* Increase the size of the card title */
+    font-weight: bold;        /* Make the title bold */
+}
+
+.card-text {
+    font-size: 1.1em;         /* Increase the size of the card text */
+    line-height: 1.5;        /* Increase the line height for better readability */
+    color: #404040;          /* Grayish Black for better contrast */
+}
+
+.container.mt-5 p {
+    color: #0F2027; /* Deep Space Blue */
+}
+
+
+/* Social Media Icons in the Footer */
+.footer .fab, .footer .fas {
+    font-size: 24px;
+    color: #E6F1F0;
+    transition: color 0.3s ease;
+}
+
+.footer .fab:hover, .footer .fas:hover {
+    color: #55E6C1; /* Neon Green for hover effect */
+}
+
+/* Spacing for Se connecter button on navbar */
+.navbar .btn-primary {
+    margin-left: 10px;
+}
+.margin20{
+    margin-top: 70px;
+}
+
+/* Login Page Specific CSS */
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.LogIn {
+    max-width: 600px;
+    padding-bottom: 80px; /* This is to ensure the content doesn't overlap with the fixed footer. Adjust as needed. */
+}
+
+.marinbuttom120{
+    margin-bottom: 120px;
+}

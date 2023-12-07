@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affectation des équipes</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link href="{% static 'styles.css' %}" rel="stylesheet">
+    <!--<link rel="stylesheet" href="../static/styles.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+
+    <!-- Schedule Teams Content -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Affectation des équipes</h2>
+
+        <!-- Match Scheduling Form -->
+        <div class="card">
+            <div class="card-header">Programmer un match</div>
+            <div class="card-body">
+                <form action="{% url 'schedule_teams' %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Programmer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'navBar.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

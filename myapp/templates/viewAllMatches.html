@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View All Matches</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+
+    {% include 'navBar.html' %}
+
+ <!-- Main Content -->
+ <div class="container mt-5 marinbuttom120"  >
+    <div class="text-center"> <!-- Center-align the heading -->
+        <h2 class="margin20">Liste de tous les matchs</h2>
+    </div>
+
+    <!-- Section for past matches -->
+    <section>
+    <h5>Matchs Passés</h5>
+    <div class="row">
+        {% for match in past_matches %}
+        <div class="col-md-6 mb-3">
+            <!-- Card for past match -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                    <p class="card-text">Date: {{ match.match_time|date:"d/m/Y" }}</p>
+                    <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                    <p class="card-text">Statut: {{ match.status }}</p>
+                    {% if match.status != 'À venir' %}
+                    <p class="card-text">Score: {{ match.score_team1 }} - {{ match.score_team2 }}</p>
+                    {% endif %}
+                    <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+    <!-- Section for current matches -->
+    <section>
+    <h5>Matchs en Cours</h5>
+    <div class="row">
+        {% for match in current_matches %}
+        <div class="col-md-6 mb-3">
+            <!-- Card for current match -->
+            <div class="card">
+                <!-- Similar to past matches, but adjust for current match details -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                    <p class="card-text">Date: {{ match.match_time|date:"d/m/Y" }}</p>
+                    <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                    <p class="card-text">Statut: {{ match.status }}</p>
+                    {% if match.status != 'À venir' %}
+                    <p class="card-text">Score: {{ match.score_team1 }} - {{ match.score_team2 }}</p>
+                    {% endif %}
+                    <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+    <!-- Section for upcoming matches -->
+    <section>
+    <h5>Matchs à Venir</h5>
+    <div class="row">
+        {% for match in upcoming_matches %}
+        <div class="col-md-6 mb-3">
+            <!-- Card for upcoming match -->
+            <div class="card">
+                <!-- Similar to past matches, but adjust for upcoming match details -->
+                <div class="card-body">
+                    <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                    <p class="card-text">Date: {{ match.match_time|date:"d/m/Y" }}</p>
+                    <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                    <p class="card-text">Statut: {{ match.status }}</p>
+                    {% if match.status == 'À venir' %}
+                    <p class="card-text">Score: - - -</p>
+                    {% endif %}
+                    <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+    <!-- Betting options and button -->
+    <div class="mt-4">
+        <div class="text-center">
+            <h2 class="margin20">Option de Pari</h2>
+        </div>
+        <section>
+            <div class="row">
+                <!-- Match 1 -->
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Match Selectionné 1</h5>
+                            <p class="card-text">Date: 03/08/2023</p>
+                            <p class="card-text">Heure: 16h45</p>
+                            <p class="card-text">Lieu: Stade PQR</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Match 2 -->
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Match Selectionné 2</h5>
+                            <p class="card-text">Date: 04/08/2023</p>
+                            <p class="card-text">Heure: 17h15</p>
+                            <p class="card-text">Lieu: Stade LMN</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Add more current matches here (up to 8) -->
+            </div>
+            <div class="row">
+                <!-- Match 3 -->
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Match Selectionné 3</h5>
+                            <p class="card-text">Date: 03/08/2023</p>
+                            <p class="card-text">Heure: 16h45</p>
+                            <p class="card-text">Lieu: Stade PQR</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Match 4 -->
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Match Selectionné 4</h5>
+                            <p class="card-text">Date: 04/08/2023</p>
+                            <p class="card-text">Heure: 17h15</p>
+                            <p class="card-text">Lieu: Stade LMN</p>
+                        </div>
+                    </div>
+                </div>
+    
+            
+            </div>
+           
+        </section>
+        
+    
+
+        <!-- Add a "Parier" button to initiate betting for selected matches -->
+        <a href="{% url 'myapp:betting_page' %}">
+        <button class="btn btn-primary">Parier</button>
+        </a>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

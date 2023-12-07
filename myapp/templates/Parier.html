@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parier</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar (Same as index page) -->
+    {% include 'navBar.html' %}
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2>Faites vos paris</h2>
+        <p>
+            Sélectionnez votre match et placez votre pari. Bonne chance!
+        </p>
+<!--made some changing for git hub-->
+
+        <!-- Betting Form -->
+        <form method="post" action="{% url 'myapp:betting_page' %}"> <!-- Update with the correct view name -->
+            {% csrf_token %}
+            {% csrf_token %}
+            <!-- Match Select -->
+            <div class="form-group">
+                <label for="matchSelect">Sélectionnez un match:</label>
+                <select class="form-control" id="matchSelect" name="matchSelect">
+                    {% for match in matches %}
+                    <option value="{{ match.id }}">{{ match.team1.name }} vs {{ match.team2.name }} - {{ match.match_time|date:"d M Y H:i" }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Team Select -->
+            <div class="form-group">
+                <label for="teamSelect">Sur quelle équipe souhaitez-vous parier?</label>
+                <select class="form-control" id="teamSelect" name="teamSelect">
+                    {% for team in teams %}
+                    <option value="{{ team.id }}">{{ team.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- Bet Amount -->
+            <div class="form-group">
+                <label for="betAmount">Montant du pari:</label>
+                <input type="number" class="form-control" id="betAmount" name="betAmount" placeholder="Entrez le montant">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Placer un pari</button>
+
+        </form>
+    </div>
+
+    <!-- Footer (Same as index page) -->
+    {% include 'navBar.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

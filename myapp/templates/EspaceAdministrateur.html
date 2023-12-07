@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Administrateur</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+
+    <!-- Administrator Dashboard Content -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Espace Administrateur</h2>
+
+
+        <!-- Management Sections -->
+        <div class="row">
+             <!-- Team Management -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <h3>Gestion des équipes</h3>
+                    <ul>
+                        {% for team in teams %}
+                            <li>{{ team.name }} - <a href="{% url 'myapp:edit_team' team.id %}">Modifier</a> | <a href="{% url 'myapp:delete_team' team.id %}">Supprimer</a></li>
+                        {% endfor %}
+                    </ul>
+                    <div class="card-body">
+                        <p>Créer, modifier ou supprimer des équipes.</p>
+                        <a href="{% url 'myapp:create_teams_and_players' %}" class="btn btn-primary">Aller à</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Match Scheduling -->
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-header">Programmation des matchs</div>
+                    <div class="card-body">
+                        <p>Planifier, modifier ou annuler des matchs.</p>
+                        <a href="{% url 'myapp:schedule_teams' %}" class="btn btn-primary">Aller à</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more management sections as needed -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <{% include 'navBar.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+

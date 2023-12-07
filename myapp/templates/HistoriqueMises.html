@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des mises</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to the separate styles.css file -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+
+    <!-- Main Content: Historique des mises -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Historique des mises</h2>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Match</th>
+                    <th>Mise (€)</th>
+                    <th>Résultat</th>
+                </tr>
+            </thead>
+            <tbody>
+             <!-- new addition from me -->
+            {% for bet in user_bets %}
+            <tr>
+            <td>{{ bet.date_placed|date:"d M Y" }}</td>
+            <td>{{ bet.match.team1.name }} vs {{ bet.match.team2.name }}</td>
+            <td>{{ bet.amount }}€</td>
+            <td>{{ bet.is_winner|yesno:"Victoire,Défaite" }}</td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="4">Aucun pari enregistré.</td>
+        </tr>
+    {% endfor %}
+
+                <tr>
+                    <td>10 Jan 2023</td>
+                    <td>Team A vs Team B</td>
+                    <td>100€</td>
+                    <td>Victoire</td>
+                </tr>
+                <tr>
+                    <td>15 Jan 2023</td>
+                    <td>Team C vs Team D</td>
+                    <td>50€</td>
+                    <td>Défaite</td>
+                </tr>
+                <!-- Add more rows as necessary -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    {% include 'navBar.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
