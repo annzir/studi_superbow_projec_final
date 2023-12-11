@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parier</title>
+    <title>Miser</title>
     <!-- Include Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Link to the separate styles.css file -->
@@ -24,18 +24,20 @@
         <p>
             Sélectionnez votre match et placez votre pari. Bonne chance!
         </p>
-
-        <!-- Betting Form -->
+<!--made some changing for git hub-->
 
         <!-- Betting Form -->
         <form method="post" action="{% url 'myapp:betting_page' %}"> <!-- Update with the correct view name -->
+            {% csrf_token %}
             {% csrf_token %}
             <!-- Match Select -->
             <div class="form-group">
                 <label for="matchSelect">Sélectionnez un match:</label>
                 <select class="form-control" id="matchSelect" name="matchSelect">
                     {% for match in matches %}
-                    <option value="{{ match.id }}">{{ match.team1.name }} vs {{ match.team2.name }} - {{ match.match_time|date:"d M Y H:i" }}</option>
+                       {% if match.end_time > now %}
+                          <option value="{{ match.id }}">{{ match.team1.name }} vs {{ match.team2.name }} - {{ match.match_time|date:"d M Y H:i" }}</option>
+                       {% endif %}
                     {% endfor %}
                 </select>
             </div>
@@ -54,13 +56,13 @@
                 <input type="number" class="form-control" id="betAmount" name="betAmount" placeholder="Entrez le montant">
             </div>
 
-            <button type="submit" class="btn btn-primary">Placer un pari</button>
+            <button type="submit" class="btn btn-primary">Valider ma sélection </button>
 
         </form>
     </div>
 
     <!-- Footer (Same as index page) -->
-    {% include 'navBar.html' %}
+    {% include 'footer.html' %}
 
     <!-- Include Bootstrap JS and Popper.js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

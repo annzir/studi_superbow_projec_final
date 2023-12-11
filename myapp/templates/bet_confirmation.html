@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmez</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    {% include 'navBar.html' %}
+<div class="container LogInContainer mt-5">
+    <div class="container mt-5">
+    <h2 class=" mt-5">Confirmation de vos paris</h2>
+    {% for bet in bets %}
+        <div>
+            <p>Match: {{ bet.match.team1.name }} vs {{ bet.match.team2.name }}</p>
+            <p>Montant parié: {{ bet.amount }} €</p>
+        </div>
+    {% endfor %}
+    <p>Vos paris ont été enregistrés avec succès!</p>
+    </div>
+</div>
+
+
+
+
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Include Bootstrap JS and Popper.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

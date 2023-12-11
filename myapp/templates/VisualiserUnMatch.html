@@ -26,14 +26,12 @@
                 <strong>Équipes:</strong> {{ match.team1.name }} vs {{ match.team2.name }}
             </div>
             <div class="mb-3">
-                <strong>Heure de début:</strong> {{ match.heure_debut }}
+                <strong>Heure de début:</strong> {{ match.match_time}}
             </div>
             <div class="mb-3">
-                <strong>Heure de fin:</strong> {{ match.heure_fin }}
+                <strong>Heure de fin:</strong> {{ match.end_time }}
             </div>
-            <!-- Ajoutez d'autres détails du match ici, en utilisant {{ match.attribut }} où nécessaire -->
 
-            <!-- Affichez le bouton de pari seulement si le match est ouvert pour les paris -->
             {% if match.statut == 'En attente' or match.statut == 'En cours' %}
                 <div class="mt-4">
                     <a href="{% url 'myapp:betting_page' %}">
@@ -43,16 +41,34 @@
         {% endif %}
 
         <div class="mb-3">
-            <strong>Équipes:</strong> Équipe A vs Équipe B
+            <strong>Joueurs {{ match.team1.name }}:</strong>
+            <ul>
+    <li>Liam Smith</li>
+    <li>Noah Johnson</li>
+    <li>Oliver Williams</li>
+    <li>Elijah Brown</li>
+    <li>William Jones</li>
+    <li>James Garcia</li>
+    <li>Benjamin Miller</li>
+    <li>Lucas Davis</li>
+    <li>Henry Rodriguez</li>
+    <li>Alexander Martinez</li>
+</ul>
         </div>
         <div class="mb-3">
-            <strong>Heure de début:</strong> 15:00
-        </div>
-        <div class="mb-3">
-            <strong>Heure de fin:</strong> 17:00
-        </div>
-        <div class="mb-3">
-            <strong>Joueurs:</strong> Liste des joueurs...
+            <strong>Joueurs {{ match.team2.name }}:</strong>
+            <ul>
+    <li>Ethan Hernandez</li>
+    <li>Jacob Lopez</li>
+    <li>Michael Gonzalez</li>
+    <li>Daniel Wilson</li>
+    <li>Matthew Anderson</li>
+    <li>Aiden Thomas</li>
+    <li>Jackson Taylor</li>
+    <li>Logan Moore</li>
+    <li>David Jackson</li>
+    <li>Joseph Martin</li>
+</ul>
         </div>
         <div class="mb-3">
             <strong>Statut du match:</strong> {{ match.status }}
@@ -67,7 +83,7 @@
             <strong>Score:</strong> Équipe A: 2 - Équipe B: 1
         </div>
         <div class="mb-3">
-            <strong>Cotes de pari:</strong> Équipe A: 1.5, Équipe B: 2.3
+            <strong>Cotes de pari:</strong> Équipe A:{{ match.odds_team1}}, Équipe B: {{ match.odds_team2}}
         </div>
 
         <!-- Bet Button -->

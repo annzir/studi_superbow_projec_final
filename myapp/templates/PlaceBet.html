@@ -24,16 +24,18 @@
         <p>Revoyez les détails de votre pari avant de confirmer.</p>
 
         <!-- Display Bet Details -->
+          <!--
         <div class="bet-details">
             <h4>Match sélectionné</h4>
             <p>{{ match.team1.name }} vs {{ match.team2.name }} - {{ match.match_time|date:"d M Y H:i" }}</p>
 
-            <h4>Équipe choisie pour le pari</h4>
+        <h4>Équipe choisie pour le pari</h4>
             <p>{{ chosen_team.name }}</p>
 
             <h4>Montant du pari</h4>
             <p>{{ bet_amount }} €</p>
         </div>
+        -->
 
         <!-- Confirmation Form -->
         <form id="betConfirmationForm" method="post" action="{% url 'myapp:finalize_bet' match.id %}">
@@ -43,7 +45,7 @@
             <input type="hidden" name="chosen_team_id" value="{{ chosen_team.id }}">
             <input type="hidden" name="bet_amount" value="{{ bet_amount }}">
 
-            <button type="submit" class="btn btn-success">Confirmer le pari</button>
+            <button type="submit" class="btn btn-success">Confirmez le pari</button>
         </form>
     </div>
 
@@ -55,7 +57,7 @@
                     <h5 class="modal-title" id="confirmationModalLabel">Confirmation du pari</h5>
                 </div>
                 <div class="modal-body">
-                    Vous avez confirmé un pari, merci et bonne chance !
+                    Vous avez confirmé un pari et vous devez payer sur p, merci et bonne chance !
                 </div>
             </div>
         </div>

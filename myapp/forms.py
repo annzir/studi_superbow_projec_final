@@ -64,7 +64,7 @@ class TeamForm(forms.ModelForm):#to creat or edit "Team" instance
 class PlayerForm(forms.ModelForm):
     class Meta:
         model = Player
-        fields = ['name', 'team']
+        fields = ['name', 'team', 'player_number']
 
 
 class MatchForm(forms.ModelForm):

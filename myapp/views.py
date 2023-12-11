@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.utils import timezone
-from django.utils import timezone
 from datetime import timedelta
 from django.core.mail import send_mail
 from django.conf import settings
@@ -17,6 +16,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import ExtendedUserCreationForm
 from django.db.models import Sum, Case, When, DecimalField
 from django.db.models.functions import TruncMonth
+from django.db.models.functions import TruncDate
+
+
 
 
 def create_account_view(request):
@@ -88,6 +90,34 @@ def all_matches_view(request):
     return render(request, 'viewAllMatches.html', context)
 
 
+def parier_view(request):
+    # US2
+    # Récupérer tous les matchs depuis la base de données
+    now = timezone.now()
+    all_matches = Match.objects.all()
+
+    past_matches = Match.objects.filter(match_time__lt=now, status='Terminé')
+    current_matches = Match.objects.filter(match_time__lte=now, match_time__gte=now - timezone.timedelta(hours=2),
+                                           status='En cours')
+    upcoming_matches = Match.objects.filter(match_time__gt=now, status='À venir')
+
+    # Vous pouvez trier les matchs en fonction de leur statut si vous avez un champ 'status' dans votre modèle
+
+    # past_matches = all_matches.filter(status='Passed')
+    # current_matches = all_matches.filter(status='Current')
+    # upcoming_matches = all_matches.filter(status='Upcoming')
+
+    # Préparer le contexte avec les matchs
+    context = {
+        'past_matches': past_matches,
+        'current_matches': current_matches,
+        'upcoming_matches': upcoming_matches
+    }
+    # Rendre la page viewAllMatches.html avec les matchs
+    return render(request, 'Parier.html', context)
+
+
+
 
 def match_detail_view(request, match_id):
     #  récupérer les détails d'un match spécifique, US3
@@ -125,8 +155,30 @@ def place_bet_view(request, match_id):
     return render(request, 'PlaceBet.html', context)
     '''return render(request, 'PlaceBet.html', {'match_id': match_id},context)'''
 
+def place_bets_view(request):
+    if request.method == 'POST':
+        selected_match_ids = request.POST.getlist('match_selection')
+        selected_matches = Match.objects.filter(id__in=selected_match_ids)
+        return render(request, 'bet_selection.html', {'matches': selected_matches})
+    else:
+        return redirect('myapp:betting_page')
+
+def place_bet_confirmation_view(request, match_id, chosen_team_id, bet_amount):
+    match = Match.objects.get(id=match_id)
+    chosen_team = Team.objects.get(id=chosen_team_id)
+
+    context = {
+        'match': match,
+        'chosen_team': chosen_team,
+        'bet_amount': bet_amount,
+    }
+    return render(request, 'PlaceBet.html', context)
+
+
 @login_required
 def betting_page_view(request):
+    now = timezone.now()
+
     if request.method == 'POST':
         match_id = request.POST.get('matchSelect')
         team_id = request.POST.get('teamSelect')
@@ -148,8 +200,9 @@ def betting_page_view(request):
         return redirect('myapp:place_bet', match_id=match_id)
 
     matches = Match.objects.all()
+    now = timezone.now()
     teams = Team.objects.all()
-    return render(request, 'Parier.html', {'matches': matches, 'teams': teams})
+    return render(request, 'Miser.html', {'matches': matches, 'teams': teams})
 
 
 @login_required
@@ -218,20 +271,18 @@ def password_reset_view(request):
 
 @login_required
 def user_dashboard_view(request):
-    user_bets = Bet.objects.filter(user=request.user)
+    # Filter bets for the logged-in user
+    user_bets = Bet.objects.filter(user=request.user).order_by('-date_placed')
 
-    # Group and sum bets by month
-    monthly_data = user_bets.annotate(month=TruncMonth('date_placed')).values('month').annotate(
-        total_amount=Sum(Case(
-            When(is_winner=True, then='amount'),
-            default=0,
-            output_field=DecimalField()
-        ))
-    ).order_by('month')
+    # Aggregate the total bet amounts by day
+    daily_totals = user_bets.annotate(day=TruncDate('date_placed')) \
+                             .values('day') \
+                             .annotate(total=Sum('amount')) \
+                             .order_by('day')
 
-    # Formatting for JavaScript
-    labels = [data['month'].strftime("%b %Y") for data in monthly_data]
-    data = [float(data['total_amount']) for data in monthly_data]  # Convert to float
+    # Prepare labels and data for the graph
+    labels = [total['day'].strftime("%b %d, %Y") for total in daily_totals]
+    data = [float(total['total']) for total in daily_totals]
 
     context = {
         'user_bets': user_bets,
@@ -240,6 +291,7 @@ def user_dashboard_view(request):
     }
 
     return render(request, 'EspaceUtilisateur.html', context)
+
 '''def user_dashboard_view(request):
     # afficher le tableau de bord de l'utilisateur US9
         user_bets = Bet.objects.filter(user=request.user)
@@ -348,6 +400,32 @@ def schedule_teams_view(request):
     return render(request, 'AffectationEquipes.html', {'form': form})
 
 
+def update_bet_view(request, bet_id):
+    bet = get_object_or_404(Bet, id=bet_id)
+
+    if request.method == 'POST':
+        # Process the form data and update the bet
+        # ... form processing logic ...
+        return redirect('some_view_after_update')
+
+    # If it's not a POST request, show the update form
+    # ... logic to show update form ...
+
+    return render(request, 'update_bet_template.html', {'bet': bet})
+
+def delete_bet_view(request, bet_id):
+    bet = get_object_or_404(Bet, id=bet_id)
+
+    if request.method == 'POST':
+        bet.delete()
+        return redirect('some_view_after_deletion')
+
+    # If it's not a POST request, show a confirmation page or redirect
+    # ... logic for confirmation or redirection ...
+
+    return render(request, 'delete_bet_confirm.html', {'bet': bet})
+
+
 '''def login_view(request):
     # la connexion des utilisateurs
         if request.method == 'POST':
@@ -365,4 +443,57 @@ def schedule_teams_view(request):
         return render(request, 'LogIn.html')'''
 
 
+# views.py
+'''def confirm_bets_view(request):
+    if request.method == 'POST':
+        user = request.user
+        match_ids = request.POST.getlist('match_ids')  # List of match IDs
+        bet_data = []
 
+        for match_id in match_ids:
+            match = Match.objects.get(id=match_id)
+            bet_amount = request.POST.get(f'bet_amount_{match_id}')
+            chosen_team_id = request.POST.get(f'chosen_team_{match_id}')
+            chosen_team = Team.objects.get(id=chosen_team_id)
+
+            # Validate and create the bet
+            if bet_amount and float(bet_amount) > 0:
+                Bet.objects.create(user=user, match=match, amount=bet_amount, chosen_team=chosen_team)
+                bet_data.append({'match': match, 'amount': bet_amount, 'chosen_team': chosen_team})
+
+        return render(request, 'bet_confirmation.html', {'bets': bet_data})
+    else:
+        return redirect('myapp:betting_page')'''
+@login_required
+def confirm_bets_view(request):
+    if request.method == 'POST':
+        user = request.user
+        for key, value in request.POST.items():
+            if key.startswith('chosen_team_'):
+                match_id = key.split('_')[-1]
+                chosen_team_id = value
+                bet_amount = request.POST.get('bet_amount_' + match_id)
+
+                # Ensure chosen_team_id and bet_amount are not empty
+                if chosen_team_id and bet_amount:
+                    match = Match.objects.get(id=match_id)
+                    # Create and save the bet
+                    bet, created = Bet.objects.get_or_create(
+                        user=user,
+                        match=match,
+                        defaults={
+                            'chosen_team_id': chosen_team_id,
+                            'amount': bet_amount
+                        }
+                    )
+                    if not created:
+                        # If bet already exists, update it
+                        bet.chosen_team_id = chosen_team_id
+                        bet.amount = bet_amount
+                        bet.save()
+
+        # Redirect to a success page or user dashboard
+        return render(request, 'bet_confirmation.html')
+    else:
+        # Redirect back to betting page if not a POST request
+        return redirect('myapp:betting_page')

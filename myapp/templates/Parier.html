@@ -11,56 +11,74 @@
     <!-- Link to the separate styles.css file -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 </head>
 
 <body>
 
-    <!-- Navigation Bar (Same as index page) -->
+<!-- Navigation Bar -->
+
     {% include 'navBar.html' %}
 
-    <!-- Main Content -->
-    <div class="container mt-5">
-        <h2>Faites vos paris</h2>
-        <p>
-            Sélectionnez votre match et placez votre pari. Bonne chance!
-        </p>
-<!--made some changing for git hub-->
+ <!-- Main Content -->
+ <div class="container mt-5 marinbuttom120">
+        <div class="text-center">
+            <h2 class="margin20">Sélectionnez votre match</h2>
+        </div>
 
-        <!-- Betting Form -->
-        <form method="post" action="{% url 'myapp:betting_page' %}"> <!-- Update with the correct view name -->
+        <form action="{% url 'myapp:place_bets' %}" method="post">
             {% csrf_token %}
-            {% csrf_token %}
-            <!-- Match Select -->
-            <div class="form-group">
-                <label for="matchSelect">Sélectionnez un match:</label>
-                <select class="form-control" id="matchSelect" name="matchSelect">
-                    {% for match in matches %}
-                    <option value="{{ match.id }}">{{ match.team1.name }} vs {{ match.team2.name }} - {{ match.match_time|date:"d M Y H:i" }}</option>
+            <section>
+                <div class="row">
+                    {% for match in current_matches %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                                <p class="card-text">Date: {{ match.match_time|date:"d/m/Y" }}</p>
+                                <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}  Fin: {{ match.end_time|date:"H:i" }}</p>
+                                <p class="card-text">Statut: {{ match.status }}</p>
+                                {% if match.status != 'À venir' %}
+                                <p class="card-text">Score: {{ match.score_team1 }} - {{ match.score_team2 }}</p>
+                                {% endif %}
+                                <input type="checkbox" name="match_selection" value="{{ match.id }}">
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                </select>
-            </div>
-            <!-- Team Select -->
-            <div class="form-group">
-                <label for="teamSelect">Sur quelle équipe souhaitez-vous parier?</label>
-                <select class="form-control" id="teamSelect" name="teamSelect">
-                    {% for team in teams %}
-                    <option value="{{ team.id }}">{{ team.name }}</option>
+                </div>
+                <div class="row">
+                    {% for match in upcoming_matches %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
+                                <p class="card-text">Date: {{ match.match_time|date:"d/m/Y" }}</p>
+                                <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}  Fin: {{ match.end_time|date:"H:i" }}</p>
+                                <p class="card-text">Statut: {{ match.status }}</p>
+                                {% if match.status != 'À venir' %}
+                                <p class="card-text">Score: {{ match.score_team1 }} - {{ match.score_team2 }}</p>
+                                {% endif %}
+                                <input type="checkbox" name="match_selection" value="{{ match.id }}">
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                </select>
-            </div>
-            <!-- Bet Amount -->
-            <div class="form-group">
-                <label for="betAmount">Montant du pari:</label>
-                <input type="number" class="form-control" id="betAmount" name="betAmount" placeholder="Entrez le montant">
-            </div>
+                </div>
+            </section>
 
-            <button type="submit" class="btn btn-primary">Placer un pari</button>
-
+            {% if request.user.is_authenticated %}
+            <button type="submit" class="btn btn-primary">Miser sur la sélection</button>
+            {% else %}
+            <p>Connectez-vous pour parier.</p>
+            {% endif %}
         </form>
     </div>
 
-    <!-- Footer (Same as index page) -->
-    {% include 'navBar.html' %}
+
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
 
     <!-- Include Bootstrap JS and Popper.js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

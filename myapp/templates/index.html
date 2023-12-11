@@ -23,7 +23,7 @@
         <div class="carousel-inner">
             <!-- Slide 1 -->
             <div class="carousel-item active">
-                <img src="https://via.placeholder.com/800x300" class="d-block w-100" alt="Slide 1">
+                <img src="../static/img/carousel01.jpg" class="d-block w-100" alt="Slide 1">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Titre Slide 1</h5>
                     <p>Description pour le slide 1.</p>
@@ -32,7 +32,7 @@
 
             <!-- Slide 2 -->
             <div class="carousel-item">
-                <img src="https://via.placeholder.com/800x300" class="d-block w-100" alt="Slide 2">
+                <img src="../static/img/carousel02.jpg" class="d-block w-100" alt="Slide 2">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Titre Slide 2</h5>
                     <p>Description pour le slide 2.</p>
@@ -41,7 +41,7 @@
 
             <!-- Slide 3 -->
             <div class="carousel-item">
-                <img src="https://via.placeholder.com/800x300" class="d-block w-100" alt="Slide 3">
+                <img src="../static/img/caroussel03.jpg" class="d-block w-100" alt="Slide 3">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Titre Slide 3</h5>
                     <p>Description pour le slide 3.</p>
@@ -83,7 +83,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
-                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <p class="card-text">Heure: {{ match.match_time}}</p>
                             <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
-                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <p class="card-text">Heure: {{ match.match_time}}</p>
                             <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
-                        <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                        <p class="card-text">Heure: {{ match.match_time}}</p>
                         <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
-                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <p class="card-text">Heure: {{ match.match_time}}</p>
                             <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
-                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <p class="card-text">Heure: {{ match.match_time}}</p>
                             <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">{{ match.team1.name }} vs {{ match.team2.name }}</h5>
-                            <p class="card-text">Heure: {{ match.match_time|date:"H:i" }}</p>
+                            <p class="card-text">Heure: {{ match.match_time}}</p>
                             <a href="{% url 'myapp:match_detail' match.id %}" class="btn btn-primary">Détails du match</a>
                         </div>
                     </div>

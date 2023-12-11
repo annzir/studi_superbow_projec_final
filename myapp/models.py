@@ -14,25 +14,47 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+    def get_player_names(self):
+        return ", ".join([f"{player.first_name} {player.family_name} ({player.player_number})" for player in self.players.all()])
+
+    def player_count(self):
+        return self.players.count()
+
 class Player(models.Model):
     name = models.CharField(max_length=100)
+    family_name = models.CharField(max_length=100)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='players')
-    # Vous pouvez ajouter d'autres champs ici, par exemple numéro, position, etc.
+    player_number = models.IntegerField()
 
     def __str__(self):
-        return f"{self.name} ({self.team.name})"
+        return f"{self.name} {self.family_name} ({self.team.name}) - {self.player_number}"
 
 class Match(models.Model):
+    STATUS_CHOICES = [
+        ('À venir', 'À venir'),
+        ('En cours', 'En cours'),
+        ('Terminé', 'Terminé'),
+    ]
     team1 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team1_matches')
     team2 = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team2_matches')
     match_time = models.DateTimeField()
     venue = models.CharField(max_length=200, null=True, blank=True)
-    status = models.CharField(max_length=50, default='Upcoming')  # Exemples: 'À venir', 'En cours', 'Terminé'
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='À venir')
     score_team1 = models.IntegerField(null=True, blank=True)
     score_team2 = models.IntegerField(null=True, blank=True)
+    start_time = models.DateTimeField(null=True, blank=True)  # Actual start time of the match
+    end_time = models.DateTimeField(null=True, blank=True)  # Actual end time of the match
+    odds_team1 = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Odds for team 1
+    odds_team2 = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)  # Odds for team 2
+
 
     def __str__(self):
         return f"{self.team1.name} vs {self.team2.name} - {self.match_time}"
+
+    def save(self, *args, **kwargs):
+        if not self.end_time:
+            self.end_time = self.match_time + timedelta(hours=1)
+        super().save(*args, **kwargs)
 
 class Bet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
